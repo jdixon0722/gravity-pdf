@@ -70,7 +70,11 @@ class Model_Custom_Fonts extends Helper_Abstract_Model {
 
 		$font_list = [];
 		foreach ( $fonts as $font ) {
-			$font['shortname']               = $font['shortname'] ?? $this->get_font_short_name( $font['font_name'] );
+			$font['shortname']   = $font['shortname'] ?? $font['id'];
+			$font['italics']     = $font['italics'] ?? '';
+			$font['bold']        = $font['bold'] ?? '';
+			$font['bolditalics'] = $font['bolditalics'] ?? '';
+
 			$font_list[ $font['shortname'] ] = $font;
 		}
 

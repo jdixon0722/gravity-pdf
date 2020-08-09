@@ -195,6 +195,15 @@ class Controller_Custom_Fonts extends Helper_Abstract_Controller {
 	}
 
 	/**
+	 * @return string[]
+	 *
+	 * @since 6.0
+	 */
+	public function get_font_keys(): array {
+		return $this->font_keys;
+	}
+
+	/**
 	 * Get a numerical array of all custom installed fonts
 	 *
 	 * @since 6.0
@@ -220,7 +229,7 @@ class Controller_Custom_Fonts extends Helper_Abstract_Controller {
 
 			/* Ensure the regular font file has been uploaded (required field) */
 			if ( ! isset( $files['regular'] ) ) {
-				throw new UploadException( 'The Regular font is required' );
+				throw new UploadException( json_encode( [ 'regular' => __( 'The Regular font is required', 'gravity-forms-pdf-extended' ) ] ) );
 			}
 
 			$files = $this->move_fonts_to_font_dir( $files );
@@ -249,9 +258,10 @@ class Controller_Custom_Fonts extends Helper_Abstract_Controller {
 
 			return $font;
 		} catch ( UploadException $e ) {
-			return new WP_Error( 'font_validation_error', '', [ 'status' => 400 ] );
+			$message = $e->getMessage()[0] === '{' ? json_decode( $e->getMessage(), true ) : $e->getMessage();
+			return new WP_Error( 'font_validation_error', $message, [ 'status' => 400 ] );
 		} catch ( GravityPdfFontNotFoundException $e ) {
-			return new WP_Error( 'font_file_gone_missing', '', [ 'status' => 500 ] );
+			return new WP_Error( 'font_file_gone_missing', $e->getMessage(), [ 'status' => 500 ] );
 		} catch ( GravityPdfDatabaseUpdateException $e ) {
 			return new WP_Error( 'database_error', '', [ 'status' => 500 ] );
 		} catch ( GravityPdfIdException $e ) {
@@ -342,9 +352,10 @@ class Controller_Custom_Fonts extends Helper_Abstract_Controller {
 
 			return $font;
 		} catch ( UploadException $e ) {
-			return new WP_Error( 'font_validation_error', '', [ 'status' => 400 ] );
+			$message = $e->getMessage()[0] === '{' ? json_decode( $e->getMessage(), true ) : $e->getMessage();
+			return new WP_Error( 'font_validation_error', $message, [ 'status' => 400 ] );
 		} catch ( GravityPdfFontNotFoundException $e ) {
-			return new WP_Error( 'font_file_gone_missing', '', [ 'status' => 500 ] );
+			return new WP_Error( 'font_file_gone_missing', $e->getMessage(), [ 'status' => 500 ] );
 		} catch ( GravityPdfModelNotUpdatedException $e ) {
 			return new WP_Error( 'no_changes_found', '', [ 'status' => 400 ] );
 		} catch ( GravityPdfDatabaseUpdateException $e ) {
@@ -439,6 +450,7 @@ class Controller_Custom_Fonts extends Helper_Abstract_Controller {
 	 */
 	protected function move_fonts_to_font_dir( array $files ): array {
 		$storage = new $this->filesystem( $this->font_dir_path );
+		$errors = [];
 
 		foreach ( $files as $id => $file ) {
 			$file = new $this->file( $id, $storage );
@@ -458,7 +470,15 @@ class Controller_Custom_Fonts extends Helper_Abstract_Controller {
 			}
 
 			/* Do validation and move to the font directory */
-			$file->upload();
+			try {
+				$file->upload();
+			} catch( UploadException $e) {
+				$errors[ $id ] = __( 'The upload is not a valid TTF file', 'gravity-forms-pdf-extended' );
+			}
+		}
+
+		if( count( $errors ) > 0 ) {
+			throw new UploadException( json_encode( $errors ) );
 		}
 
 		return $files;
@@ -515,7 +535,7 @@ class Controller_Custom_Fonts extends Helper_Abstract_Controller {
 
 		foreach ( $files as $file ) {
 			if ( ! isset( $file['name'] ) || ! is_file( $this->font_dir_path . $file['name'] ) ) {
-				throw new GravityPdfFontNotFoundException();
+				throw new GravityPdfFontNotFoundException( $file['name'] );
 			}
 
 			if ( ! $otl->supports_otl( $file['name'] ) ) {

@@ -6,8 +6,6 @@ namespace GFPDF\Controller;
 
 use GFPDF\Helper\Helper_Data;
 use GFPDF\Model\Model_Custom_Fonts;
-use GFPDF_Vendor\Upload\File;
-use GFPDF_Vendor\Upload\Storage\FileSystem;
 use GPDFAPI;
 use WP_REST_Request;
 use WP_UnitTestCase;
@@ -62,7 +60,7 @@ class Test_Controller_Custom_Fonts extends WP_UnitTestCase {
 
 		/* Setup our test classes */
 		$this->model      = new Model_Custom_Fonts( $gfpdf->options );
-		$this->controller = new Controller_Custom_Fonts( $this->model, $gfpdf->log, $gfpdf->gform, $this->tmp_font_location, 'GFPDF\\Controller\\StubbedFilesystem', 'GFPDF\\Controller\\StubbedFile' );
+		$this->controller = new Controller_Custom_Fonts( $this->model, $gfpdf->log, $gfpdf->gform, $this->tmp_font_location, 'GFPDF\\Helper\\Fonts\\LocalFilesystem', 'GFPDF\\Helper\\Fonts\\LocalFile' );
 
 		$this->controller->init();
 
@@ -497,17 +495,5 @@ class Test_Controller_Custom_Fonts extends WP_UnitTestCase {
 		$this->assertEmpty( $this->controller->get_absolute_font_path( '' ) );
 
 		$this->assertSame( $this->tmp_font_location . 'font.ttf', $this->controller->get_absolute_font_path( 'font.ttf' ) );
-	}
-}
-
-class StubbedFile extends File {
-	public function isUploadedFile() {
-		return true;
-	}
-}
-
-class StubbedFilesystem extends FileSystem {
-	protected function moveUploadedFile( $source, $destination ) {
-		return rename( $source, $destination );
 	}
 }

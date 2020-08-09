@@ -54,14 +54,15 @@ $(function () {
     helpBootstrap()
   }
 
-  /* Initialize Font Manager */
   const defaultFontField = document.querySelector('#gfpdf-settings-field-wrapper-default_font')
   const manageFonts = document.querySelector('#gfpdf-settings-field-wrapper-manage_fonts')
 
+  /* Initialize font manager under general settings tab */
   if (defaultFontField !== null) {
     fontManagerBootstrap(defaultFontField)
   }
 
+  /* Initialize font manager under tools tab  */
   if (manageFonts !== null) {
     fontManagerBootstrap(manageFonts)
   }

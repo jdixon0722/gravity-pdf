@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
+import { toggleUpdateFont } from '../../utilities/toggleUpdateFont'
 
 /**
  * Renders our close dialog element
@@ -21,7 +22,8 @@ export class CloseDialog extends React.Component {
    * @since 6.0
    */
   static propTypes = {
-    history: PropTypes.object
+    id: PropTypes.string,
+    history: PropTypes.object.isRequired
   }
 
   /**
@@ -51,7 +53,14 @@ export class CloseDialog extends React.Component {
    * @since 6.0
    */
   handleKeyPress = e => {
-    /* Escape Key */
+    const { id, history } = this.props
+
+    /* Close font manager edit/update state first */
+    if (e.keyCode === 27 && id) {
+      return toggleUpdateFont(history)
+    }
+
+    /* Close modal */
     if (e.keyCode === 27 && (e.target.className !== 'wp-filter-search' || e.target.value === '')) {
       this.handleCloseDialog()
     }

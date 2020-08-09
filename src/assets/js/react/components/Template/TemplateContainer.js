@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import CloseDialog from '../../utilities/CloseDialog'
+import CloseDialog from '../Modal/CloseDialog'
 
 /**
  * Renders our Advanced Template Selector container which is shared amongst the components
