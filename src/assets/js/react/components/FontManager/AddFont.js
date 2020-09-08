@@ -38,7 +38,7 @@ export const AddFont = (
         className={!validateLabel ? 'input-label-validation-error' : ''}
         name='label'
         value={label}
-        maxLength='37'
+        maxLength='60'
         onChange={onHandleInputChange}
         tabIndex={tabIndexFontName}
       />

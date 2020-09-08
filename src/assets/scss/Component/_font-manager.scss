@@ -9,11 +9,9 @@
 
   #font-manager-overlay {
     #gfpdf-font-manager-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      bottom: 2px;
-      color: base.$default-text-color;
+      display: flex;
+      flex-direction: column;
+      height: 88%;
 
       .wp-filter-search {
         width: 70%;
@@ -27,12 +25,15 @@
       .font-list {
         margin-top: 1rem;
         overflow: auto;
-        max-height: 600px;
+        max-height: 350px;
+        box-shadow: 0 1px 1px rgba(0,0,0,.04);
 
         .error {
           border: 0;
           text-align: center;
-          margin-top: 140px;
+          margin-top: 60px;
+          margin-bottom: 40px;
+          box-shadow: unset;
 
           p {
             color: base.$link-color;
@@ -52,6 +53,7 @@
 
           .font-name {
             text-align: left;
+            word-break: break-all;
           }
         }
 
@@ -109,13 +111,13 @@
       /* Add font */
       .add-font-column {
         position: relative;
-        overflow: hidden;
         width: 90%;
+        padding-top: 1rem;
 
         .slide-update-font {
           background-color: #fff;
           position: absolute;
-          left: -680px;
+          left: -720px;
           transition: 0.5s;
           width: 100%;
 
@@ -182,6 +184,10 @@
                   background-color: #ffffff;
                   color: base.$highlight-color;
                 }
+
+                &.gfpdf-font-filename {
+                  text-align: center;
+                }
               }
 
               &:focus {
@@ -239,6 +245,19 @@
 
           .footer {
             display: flex;
+
+            &.cancel {
+              display: unset;
+
+              button {
+                margin-bottom: 0;
+              }
+
+              .msg {
+                display: flex;
+                padding-left: 0px;
+              }
+            }
 
             .msg {
               padding-top: 8px;

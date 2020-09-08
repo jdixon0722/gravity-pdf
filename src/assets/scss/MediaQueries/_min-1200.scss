@@ -1,7 +1,7 @@
 @use '../base';
 
-/* 961px and up */
-@media only screen and (min-width: 961px) {
+/* 1200px and up */
+@media only screen and (min-width: 1200px) {
 
   #tab_pdf, #tab_PDF {
     #pdfextended-settings {
@@ -29,37 +29,11 @@
 
           form {
             .footer {
-              &.cancel {
-                display: unset;
-
-                button {
-                  margin-bottom: 0;
-                }
-
-                .msg {
-                  display: flex;
-                  padding-left: 0px;
-                }
-              }
-
               .msg {
-                padding-left: 10px;
-                text-align: center;
+                font-size: 13px;
+                text-align: unset;
+                padding-left: 20px;
               }
-            }
-          }
-        }
-      }
-
-      /* Help tab section */
-      .about-wrap {
-        #dashboard-widgets {
-          .postbox-container {
-            width: 49.5%;
-
-            a {
-              margin-right: 30px;
-              min-height: 245px;
             }
           }
         }

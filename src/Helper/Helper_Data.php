@@ -283,9 +283,9 @@ class Helper_Data {
 				'coreFontCounter'                      => esc_html__( 'Fonts remaining:', 'gravity-forms-pdf-extended' ),
 				'coreFontRetry'                        => esc_html__( 'Retry Failed Downloads?', 'gravity-forms-pdf-extended' ),
 
-				'addFontSuccess'                      => esc_html__( '<strong>Success!</strong> New font has been added successfully.', 'gravity-forms-pdf-extended' ),
-				'editFontSuccess'                      => esc_html__( '<strong>Success!</strong> New font has been updated successfully.', 'gravity-forms-pdf-extended' ),
-				'fontManagerError'                      => esc_html__( '<strong>Oops!</strong> Something went wrong. Please try again.', 'gravity-forms-pdf-extended' ),
+				'addFontSuccess'                      => esc_html__( '<strong>Success!&nbsp;</strong>New font has been added successfully.', 'gravity-forms-pdf-extended' ),
+				'editFontSuccess'                      => esc_html__( '<strong>Success!&nbsp;</strong>New font has been updated successfully.', 'gravity-forms-pdf-extended' ),
+				'fontManagerError'                      => esc_html__( '<strong>Oops!&nbsp;</strong>Something went wrong. Please try again.', 'gravity-forms-pdf-extended' ),
 				'fontListError'                      => esc_html__( 'Something went wrong and could not load font list.', 'gravity-forms-pdf-extended' ),
 
 				'uninstallWarning'                     => esc_html__( "Warning! ALL Gravity PDF data, including templates, will be deleted. This cannot be undone. 'OK' to delete, 'Cancel' to stop.", 'gravity-forms-pdf-extended' ),
