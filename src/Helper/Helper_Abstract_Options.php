@@ -2,6 +2,7 @@
 
 namespace GFPDF\Helper;
 
+use GFPDF\Controller\Controller_Custom_Fonts;
 use Psr\Log\LoggerInterface;
 use WP_Error;
 
@@ -1006,22 +1007,14 @@ abstract class Helper_Abstract_Options implements Helper_Interface_Filters {
 	 * @return array
 	 *
 	 * @since 4.0
+	 *
+	 * @deprecated
 	 */
 	public function get_custom_fonts() {
-		$fonts = $this->get_option( 'custom_fonts' );
+		/** @var Controller_Custom_Fonts $custom_font_controller */
+		$custom_font_controller = \GPDFAPI::get_mvc_class('Controller_Custom_Fonts' );
 
-		if ( is_array( $fonts ) && count( $fonts ) > 0 ) {
-			foreach ( $fonts as &$font ) {
-				$font['shortname']   = $this->get_font_short_name( $font['font_name'] );
-				$font['italics']     = ( isset( $font['italics'] ) ) ? $font['italics'] : '';
-				$font['bold']        = ( isset( $font['bold'] ) ) ? $font['bold'] : '';
-				$font['bolditalics'] = ( isset( $font['bolditalics'] ) ) ? $font['bolditalics'] : '';
-			}
-
-			return $fonts;
-		}
-
-		return [];
+		return $custom_font_controller->get_all_items();
 	}
 
 	/**
