@@ -45,7 +45,7 @@ export class CloseDialog extends React.Component {
    *
    * @since 6.0
    */
-  componentWillUnmount (prevProps) {
+  componentWillUnmount () {
     document.removeEventListener('keydown', this.handleKeyPress, false)
 
     const { location: { pathname }, fontList } = this.props
