@@ -1,6 +1,7 @@
 export default (fontList) => {
   const defaultFontSelectBox = document.querySelector('.gfpdf_settings_default_font ')
   const definedFontsOptgroup = document.querySelector('optgroup[label="User-Defined Fonts"]')
+  const selectedValue = defaultFontSelectBox.options[defaultFontSelectBox.selectedIndex].value
 
   if (definedFontsOptgroup !== null) {
     /* Remove optgroup */
@@ -19,4 +20,5 @@ export default (fontList) => {
   })
 
   defaultFontSelectBox.insertBefore(optgroup, defaultFontSelectBox.childNodes[0])
+  defaultFontSelectBox.value = selectedValue
 }
