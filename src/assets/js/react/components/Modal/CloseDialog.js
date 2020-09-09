@@ -23,6 +23,7 @@ export class CloseDialog extends React.Component {
    */
   static propTypes = {
     id: PropTypes.string,
+    closeRoute: PropTypes.string,
     history: PropTypes.object.isRequired
   }
 
@@ -71,7 +72,7 @@ export class CloseDialog extends React.Component {
    */
   handleCloseDialog = () => {
     /* trigger router */
-    this.props.history.push('/')
+    this.props.history.push(this.props.closeRoute || '/')
   }
 
   /**
