@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { toggleUpdateFont } from '../../utilities/toggleUpdateFont'
+import associatedFontManagerSelectBox from '../../utilities/associatedFontManagerSelectBox'
 
 /**
  * Renders our close dialog element
@@ -24,6 +26,8 @@ export class CloseDialog extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     closeRoute: PropTypes.string,
+    fontList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
   }
 
@@ -41,8 +45,15 @@ export class CloseDialog extends React.Component {
    *
    * @since 6.0
    */
-  componentWillUnmount () {
+  componentWillUnmount (prevProps) {
     document.removeEventListener('keydown', this.handleKeyPress, false)
+
+    const { location: { pathname }, fontList } = this.props
+
+    /* Ensure associated font manager select box has the latest data */
+    if (pathname.includes('/fontmanager/')) {
+      associatedFontManagerSelectBox(fontList)
+    }
   }
 
   /**
@@ -94,4 +105,8 @@ export class CloseDialog extends React.Component {
   }
 }
 
-export default withRouter(CloseDialog)
+const mapStateToProps = state => ({
+  fontList: state.fontManager.fontList
+})
+
+export default withRouter(connect(mapStateToProps, {})(CloseDialog))
