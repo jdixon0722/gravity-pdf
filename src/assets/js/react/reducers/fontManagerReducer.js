@@ -20,11 +20,13 @@ import {
   findAndUpdate,
   findAndRemove,
   reduceFontFileName,
-  checkFontListIncludes
+  checkFontListIncludes,
+  clearMsg
 } from '../utilities/fontManagerReducer'
 
 export const initialState = {
   loading: false,
+  addFontLoading: false,
   fontList: [],
   searchResult: null,
   msg: {}
@@ -57,26 +59,17 @@ export default function (state = initialState, action) {
       }
 
     case ADD_FONT:
-    case CLEAR_ADD_FONT_MSG: {
-      const msg = { ...state.msg }
-
-      /* Clear previous success msg */
-      if (msg.success) {
-        delete msg.success
+      return {
+        ...state,
+        addFontLoading: true,
+        msg: clearMsg({ ...state.msg })
       }
-
-      /* Clear previous addFont error msg */
-      if (msg.error && msg.error.addFont) {
-        delete msg.error.addFont
-      }
-
-      return { ...state, msg }
-    }
 
     case ADD_FONT_SUCCESS: {
       if (state.msg.error && state.msg.error.fontList) {
         return {
           ...state,
+          addFontLoading: false,
           msg: { ...state.msg, success: { addFont: payload.msg } }
         }
       }
@@ -85,6 +78,7 @@ export default function (state = initialState, action) {
 
       return {
         ...state,
+        addFontLoading: false,
         fontList: updatedFontList,
         searchResult: state.searchResult ? updatedFontList : null,
         msg: { success: { addFont: payload.msg } }
@@ -100,7 +94,11 @@ export default function (state = initialState, action) {
         delete msg.error.deleteFont
       }
 
-      return { ...state, msg }
+      return {
+        ...state,
+        addFontLoading: false,
+        msg
+      }
     }
 
     case EDIT_FONT: {
@@ -116,7 +114,11 @@ export default function (state = initialState, action) {
         delete msg.error.addFont
       }
 
-      return { ...state, msg }
+      return {
+        ...state,
+        addFontLoading: true,
+        msg
+      }
     }
 
     /**
@@ -129,7 +131,7 @@ export default function (state = initialState, action) {
       if (state.searchResult) {
         return {
           ...state,
-          loading: false,
+          addFontLoading: false,
           fontList: findAndUpdate([...state.fontList], payload),
           searchResult: findAndUpdate([...state.searchResult], payload),
           msg
@@ -138,7 +140,7 @@ export default function (state = initialState, action) {
 
       return {
         ...state,
-        loading: false,
+        addFontLoading: false,
         fontList: findAndUpdate([...state.fontList], payload),
         msg
       }
@@ -180,6 +182,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         msg: { ...state.msg, error: { ...state.msg.error, deleteFont: payload } }
+      }
+
+    case CLEAR_ADD_FONT_MSG:
+      return {
+        ...state,
+        msg: clearMsg({ ...state.msg })
       }
 
     case CLEAR_DROPZONE_ERROR: {

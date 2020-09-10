@@ -33,3 +33,19 @@ export function checkFontListIncludes (font, payload) {
     .toLowerCase()
     .includes(payload.toLowerCase())
 }
+
+export function clearMsg (payload) {
+  const msg = { ...payload }
+
+  /* Clear previous success msg */
+  if (msg.success) {
+    delete msg.success
+  }
+
+  /* Clear previous addFont error msg */
+  if (msg.error && msg.error.addFont) {
+    delete msg.error.addFont
+  }
+
+  return msg
+}

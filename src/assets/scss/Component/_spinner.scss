@@ -4,6 +4,12 @@
     padding: 0 5px;
     vertical-align: middle;
     width: 27px;
+
+    &.add-font {
+      width: 20px;
+      height: 20px;
+      padding: 10px 0px 0px 10px;
+    }
   }
 
   /* PDF List Page */

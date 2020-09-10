@@ -17,6 +17,7 @@ export const AddFont = (
     validateLabel,
     validateRegular,
     msg,
+    loading,
     tabIndexFontName,
     tabIndexFontFiles
   }
@@ -62,6 +63,7 @@ export const AddFont = (
         id={id}
         onHandleCancelEditFont={onHandleCancelEditFont}
         msg={msg}
+        loading={loading}
       />
     </form>
   </div>
@@ -80,6 +82,7 @@ AddFont.propTypes = {
   validateRegular: PropTypes.bool.isRequired,
   fontStyles: PropTypes.object.isRequired,
   msg: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
   tabIndexFontName: PropTypes.string.isRequired,
   tabIndexFontFiles: PropTypes.string.isRequired
 }

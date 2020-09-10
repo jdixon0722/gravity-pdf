@@ -18,6 +18,7 @@ export class FontManagerBody extends Component {
   static propTypes = {
     getCustomFontList: PropTypes.func.isRequired,
     id: PropTypes.string,
+    loading: PropTypes.bool.isRequired,
     fontList: PropTypes.arrayOf(PropTypes.object).isRequired,
     msg: PropTypes.object.isRequired,
     clearDropzoneError: PropTypes.func.isRequired,
@@ -227,7 +228,7 @@ export class FontManagerBody extends Component {
   }
 
   render () {
-    const { id, msg, history } = this.props
+    const { id, msg, loading, history } = this.props
     const addFontColumnVisible = document.querySelector('.add-font-column .remove')
 
     return (
@@ -250,6 +251,7 @@ export class FontManagerBody extends Component {
             onHandleSubmit={this.handleSubmit}
             id={id}
             msg={msg}
+            loading={loading}
             tabIndexFontName={addFontColumnVisible ? '145' : '0'}
             tabIndexFontFiles={addFontColumnVisible ? '146' : '0'}
             {...this.state}
@@ -263,6 +265,7 @@ export class FontManagerBody extends Component {
             onHandleSubmit={this.handleSubmit}
             id={id}
             msg={msg}
+            loading={loading}
             tabIndexFontName={!addFontColumnVisible ? '145' : '0'}
             tabIndexFontFiles={!addFontColumnVisible ? '146' : '0'}
             {...this.state}
@@ -274,6 +277,7 @@ export class FontManagerBody extends Component {
 }
 
 const mapStateToProps = state => ({
+  loading: state.fontManager.addFontLoading,
   fontList: state.fontManager.fontList,
   searchResult: state.fontManager.searchResult,
   msg: state.fontManager.msg
