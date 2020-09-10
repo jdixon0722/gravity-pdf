@@ -33,7 +33,6 @@ export const FontVariant = ({
           <span className={'gfpdf-font-filename ' + (regular && 'required')}>
             {font && typeof font !== 'object' && font.substr(font.lastIndexOf('/') + 1)}
             {!err && font ? font.name : err}
-            {regular && <em className='required'>Required</em>}
           </span>
 
           <span className={'dashicons dashicons-' + (font ? 'trash' : 'plus')} />

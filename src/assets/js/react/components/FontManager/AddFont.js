@@ -45,7 +45,7 @@ export const AddFont = (
       />
       {!validateLabel && <span className='required'><em>validation error</em></span>}
 
-      <label>Font Files <span className='required'>(required: Regular)</span></label>
+      <label>Font Files</label>
       <p>
         Select or drag and drop your .ttf font file for the variants below. Only the Regular type is required.
       </p>
