@@ -30,10 +30,10 @@ export const FontVariant = ({
             <input id={'gfpdf-font-variant-' + key} type='file' name={key} onChange={onHandleUpload} />
           )}
 
-          <span className={'gfpdf-font-filename ' + (regular && ' required')}>
+          <span className={'gfpdf-font-filename ' + (regular && 'required')}>
             {font && typeof font !== 'object' && font.substr(font.lastIndexOf('/') + 1)}
             {!err && font ? font.name : err}
-            {regular && <em>Required</em>}
+            {regular && <em className='required'>Required</em>}
           </span>
 
           <span className={'dashicons dashicons-' + (font ? 'trash' : 'plus')} />

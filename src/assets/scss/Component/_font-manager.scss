@@ -154,6 +154,7 @@
             }
 
             .required {
+              color: base.$validation-error-color;
               font-size: 0.8rem;
             }
           }
@@ -205,8 +206,8 @@
               }
 
               &.error {
-                background-color: base.$error-color;
-                border-color: base.$error-color;
+                background-color: base.$validation-error-color;
+                border-color: base.$validation-error-color;
                 color: #ffffff;
               }
 
@@ -216,6 +217,10 @@
 
               .gfpdf-font-filename {
                 text-align: center;
+
+                &.required {
+                  color: base.$validation-error-color;
+                }
               }
 
               .dashicons {
