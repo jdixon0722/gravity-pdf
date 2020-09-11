@@ -119,6 +119,28 @@ class Model_System_Report extends Helper_Abstract_Model {
 	}
 
 	/**
+	 * Move the Gravity PDF plugins from Active Plugins section to Add-Ons
+	 *
+	 * @param array $system_report
+	 *
+	 * @return array
+	 * @since 6.0
+	 */
+	public function move_gravitypdf_active_plugins_to_gf_addons( $system_report ): array {
+		$active_plugins = $system_report[1]['tables'][2]['items'] ?? [];
+
+		/* Find any active Gravity PDF plugins and move to GF addons */
+		foreach ( $active_plugins as $index => $plugin ) {
+			if ( stripos( $plugin['label'], 'Gravity PDF' ) !== false ) {
+				$system_report[0]['tables'][1]['items'][] = $plugin;
+				unset( $system_report[1]['tables'][2]['items'][ $index ] );
+			}
+		}
+
+		return $system_report;
+	}
+
+	/**
 	 * Get array report structure of Gravity PDF System Report
 	 *
 	 * @return array
@@ -293,28 +315,6 @@ class Model_System_Report extends Helper_Abstract_Model {
 			'value'        => $string . $icon,
 			'value_export' => $is_writable ? 'Writable' : 'Not writable',
 		];
-	}
-
-	/**
-	 * Move the Gravity PDF plugins from Active Plugins section to Add-Ons
-	 *
-	 * @param array $system_report
-	 *
-	 * @return array
-	 * @since 6.0
-	 */
-	public function move_gravitypdf_active_plugins_to_gf_addons( $system_report ): array {
-		$active_plugins = $system_report[1]['tables'][2]['items'] ?? [];
-
-		/* Find any active Gravity PDF plugins and move to GF addons */
-		foreach ( $active_plugins as $index => $plugin ) {
-			if ( stripos( $plugin['label'], 'Gravity PDF' ) !== false ) {
-				$system_report[0]['tables'][1]['items'][] = $plugin;
-				unset( $system_report[1]['tables'][2]['items'][ $index ] );
-			}
-		}
-
-		return $system_report;
 	}
 
 	/**
