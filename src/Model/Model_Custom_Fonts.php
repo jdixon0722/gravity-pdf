@@ -74,6 +74,8 @@ class Model_Custom_Fonts extends Helper_Abstract_Model {
 			$font['italics']     = $font['italics'] ?? '';
 			$font['bold']        = $font['bold'] ?? '';
 			$font['bolditalics'] = $font['bolditalics'] ?? '';
+			$font['useOTL']      = $font['useOTL'] ?? 0x00;
+			$font['useKashida']  = $font['useKashida'] ?? 0;
 
 			$font_list[ $font['shortname'] ] = $font;
 		}
