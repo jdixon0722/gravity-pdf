@@ -49,4 +49,21 @@ class Test_View_System_Report extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( 'is disabled', $this->view->get_allow_url_fopen( true ) );
 		$this->assertStringContainsString( 'is disabled', $this->view->get_allow_url_fopen( false ) );
 	}
+
+	public function test_get_icon_success() {
+		$this->assertStringContainsString( 'yes', $this->view->get_icon( true ) );
+		$this->assertStringContainsString( 'yes', $this->view->get_icon( 1 ) );
+		$this->assertStringContainsString( 'yes', $this->view->get_icon( 'string' ) );
+
+	}
+
+	public function test_get_icon_failures() {
+		$this->assertStringContainsString( 'error', $this->view->get_icon( false ) );
+		$this->assertStringContainsString( 'error', $this->view->get_icon( 0 ) );
+
+	}
+
+	public function test_maybe_get_active_icon_empty() {
+		$this->assertEmpty( $this->view->maybe_get_active_icon( '' ) );
+	}
 }
