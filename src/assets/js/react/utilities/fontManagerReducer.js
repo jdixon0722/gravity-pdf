@@ -28,10 +28,10 @@ export function reduceFontFileName (key) {
     .toLowerCase()
 }
 
-export function checkFontListIncludes (font, payload) {
+export function checkFontListIncludes (font, keyword) {
   return font
     .toLowerCase()
-    .includes(payload.toLowerCase())
+    .includes(keyword)
 }
 
 export function clearMsg (payload) {

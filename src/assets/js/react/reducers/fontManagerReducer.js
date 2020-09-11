@@ -87,7 +87,10 @@ export default function (state = initialState, action) {
 
     case ADD_FONT_ERROR:
     case EDIT_FONT_ERROR: {
-      const msg = { ...state.msg, error: { ...state.msg.error, addFont: payload } }
+      const msg = {
+        ...state.msg,
+        error: { ...state.msg.error, addFont: payload }
+      }
 
       /* Clear deleteFont error msg */
       if (msg.error && msg.error.deleteFont) {
@@ -159,7 +162,10 @@ export default function (state = initialState, action) {
         delete msg.error.deleteFont
       }
 
-      return { ...state, msg }
+      return {
+        ...state,
+        msg
+      }
     }
 
     case DELETE_FONT_SUCCESS: {
@@ -181,7 +187,13 @@ export default function (state = initialState, action) {
     case DELETE_FONT_ERROR:
       return {
         ...state,
-        msg: { ...state.msg, error: { ...state.msg.error, deleteFont: payload } }
+        msg: {
+          ...state.msg,
+          error: {
+            ...state.msg.error,
+            deleteFont: payload
+          }
+        }
       }
 
     case CLEAR_ADD_FONT_MSG:
@@ -196,7 +208,13 @@ export default function (state = initialState, action) {
 
       return {
         ...state,
-        msg: { ...state.msg, error: { ...state.msg.error, addFont } }
+        msg: {
+          ...state.msg,
+          error: {
+            ...state.msg.error,
+            addFont
+          }
+        }
       }
     }
 
@@ -208,8 +226,16 @@ export default function (state = initialState, action) {
 
     case SEARCH_FONT_LIST: {
       const fontList = [...state.fontList]
-      const searchResult = []
 
+      if (payload === '') {
+        return {
+          ...state,
+          searchResult: fontList
+        }
+      }
+
+      const keyword = payload.toLowerCase()
+      const searchResult = []
       const modifiedFontList = fontList.map(font => {
         font.regular = reduceFontFileName(font.regular)
         font.italics = reduceFontFileName(font.italics)
@@ -221,17 +247,38 @@ export default function (state = initialState, action) {
 
       modifiedFontList.map(font => {
         if (
-          checkFontListIncludes(font.font_name, payload) ||
-          checkFontListIncludes(font.regular, payload) ||
-          checkFontListIncludes(font.italics, payload) ||
-          checkFontListIncludes(font.bold, payload) ||
-          checkFontListIncludes(font.bolditalics, payload)
+          checkFontListIncludes(font.font_name, keyword) ||
+          checkFontListIncludes(font.regular, keyword) ||
+          checkFontListIncludes(font.italics, keyword) ||
+          checkFontListIncludes(font.bold, keyword) ||
+          checkFontListIncludes(font.bolditalics, keyword)
         ) {
           searchResult.push(font)
         }
       })
 
-      return { ...state, searchResult: searchResult }
+      const mostRelevant = []
+      const related = []
+
+      /* Construct 2 arrays containing the most relevant and the related results */
+      searchResult.map(item => {
+        if (item.font_name.includes(keyword)) {
+          return mostRelevant.push(item)
+        }
+
+        related.push(item)
+      })
+
+      /* Sort and combine mostRelevant and related array into 1 array */
+      const result = [
+        ...mostRelevant.sort((a, b) => a.font_name.localeCompare(b.font_name)),
+        ...related.sort((a, b) => a.font_name.localeCompare(b.font_name))
+      ]
+
+      return {
+        ...state,
+        searchResult: result
+      }
     }
 
     default:
