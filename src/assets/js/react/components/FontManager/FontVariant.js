@@ -25,9 +25,9 @@ export const FontVariant = ({
           tabIndex={tabIndexFontFiles}
         >
           {font ? (
-            <input id={'gfpdf-font-variant-' + key} onClick={e => onHandleDeleteFontStyle(e, key)} />
+            <input id={'gfpdf-font-variant-' + key} onClick={e => onHandleDeleteFontStyle(e, key)} accept='.ttf' />
           ) : (
-            <input id={'gfpdf-font-variant-' + key} type='file' name={key} onChange={onHandleUpload} />
+            <input id={'gfpdf-font-variant-' + key} type='file' name={key} onChange={onHandleUpload} accept='.ttf' />
           )}
 
           <span className={'gfpdf-font-filename ' + (regular && 'required')}>
