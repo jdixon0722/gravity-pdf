@@ -119,13 +119,8 @@ export class FontManagerBody extends Component {
     this.setState({ label: e.target.value })
   }
 
-  handleUpload = e => {
-    const { name, files } = e.target
-
-    this.setState({ fontStyles: { ...this.state.fontStyles, [name]: files[0] } })
-
-    /* Reset file input value to enable next upload request */
-    e.target.value = null
+  handleUpload = (key, file) => {
+    this.setState({ fontStyles: { ...this.state.fontStyles, [key]: file } })
   }
 
   validateInputFields = (label, regular) => {

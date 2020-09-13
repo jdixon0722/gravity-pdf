@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Dropzone from 'react-dropzone'
 import FontVariantLabel from './FontVariantLabel'
-import fontManagerHandleKeyPress from '../../utilities/fontManagerHandleKeyPress'
 
 export const FontVariant = ({
   fontStyles,
@@ -17,28 +17,35 @@ export const FontVariant = ({
       const err = error && typeof error.addFont === 'object' && error.addFont[key]
 
       return (
-        <label
+        <Dropzone
           key={key}
-          htmlFor={'gfpdf-font-variant-' + key}
-          className={'drop-zone' + (err ? ' error' : font ? ' active' : regular ? ' required' : '')}
-          onKeyDown={e => fontManagerHandleKeyPress(e, key, onHandleUpload, 'fontVariant')}
-          tabIndex={tabIndexFontFiles}
+          accept='.ttf'
+          onDrop={acceptedFiles => onHandleUpload(key, acceptedFiles[0])}
         >
-          {font ? (
-            <input id={'gfpdf-font-variant-' + key} onClick={e => onHandleDeleteFontStyle(e, key)} accept='.ttf' />
-          ) : (
-            <input id={'gfpdf-font-variant-' + key} type='file' name={key} onChange={onHandleUpload} accept='.ttf' />
+          {({ getRootProps, getInputProps }) => (
+            <a
+              className={'drop-zone' + (err ? ' error' : font ? ' active' : regular ? ' required' : '')}
+              {...getRootProps()}
+              tabIndex={tabIndexFontFiles}
+            >
+              {font ? (
+                <input
+                  id={'gfpdf-font-variantt-' + key}
+                  {...getInputProps({ onClick: e => onHandleDeleteFontStyle(e, key) })}
+                />
+              ) : <input id={'gfpdf-font-variant-' + key} {...getInputProps()} />}
+
+              <span className={'gfpdf-font-filename ' + (regular && 'required')}>
+                {font && typeof font !== 'object' && font.substr(font.lastIndexOf('/') + 1)}
+                {!err && font ? font.name : err}
+              </span>
+
+              <span className={'dashicons dashicons-' + (font ? 'trash' : 'plus')} />
+
+              <FontVariantLabel label={key} />
+            </a>
           )}
-
-          <span className={'gfpdf-font-filename ' + (regular && 'required')}>
-            {font && typeof font !== 'object' && font.substr(font.lastIndexOf('/') + 1)}
-            {!err && font ? font.name : err}
-          </span>
-
-          <span className={'dashicons dashicons-' + (font ? 'trash' : 'plus')} />
-
-          <FontVariantLabel label={key} />
-        </label>
+        </Dropzone>
       )
     })}
   </div>
