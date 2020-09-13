@@ -42,7 +42,7 @@ export const FontVariant = ({
 
               <span className={'dashicons dashicons-' + (font ? 'trash' : 'plus')} />
 
-              <FontVariantLabel label={key} />
+              <FontVariantLabel label={key} font={font ? 'true' : 'false'} />
             </a>
           )}
         </Dropzone>
