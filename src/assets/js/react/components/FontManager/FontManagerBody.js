@@ -224,7 +224,7 @@ export class FontManagerBody extends Component {
 
   render () {
     const { id, msg, loading, history } = this.props
-    const addFontColumnVisible = document.querySelector('.add-font-column .remove')
+    const slideFontColumnVisible = document.querySelector('.add-font-column .show')
 
     return (
       <div id='gfpdf-font-manager-container' className='wp-clearfix theme-about'>
@@ -247,8 +247,9 @@ export class FontManagerBody extends Component {
             id={id}
             msg={msg}
             loading={loading}
-            tabIndexFontName={addFontColumnVisible ? '145' : '0'}
-            tabIndexFontFiles={addFontColumnVisible ? '146' : '0'}
+            tabIndexFontName={slideFontColumnVisible ? '145' : '0'}
+            tabIndexFontFiles={slideFontColumnVisible ? '146' : '0'}
+            tabIndexFooterButtons={slideFontColumnVisible ? '147' : '0'}
             {...this.state}
           />
 
@@ -261,8 +262,9 @@ export class FontManagerBody extends Component {
             id={id}
             msg={msg}
             loading={loading}
-            tabIndexFontName={!addFontColumnVisible ? '145' : '0'}
-            tabIndexFontFiles={!addFontColumnVisible ? '146' : '0'}
+            tabIndexFontName={!slideFontColumnVisible ? '145' : '0'}
+            tabIndexFontFiles={!slideFontColumnVisible ? '146' : '0'}
+            tabIndexFooterButtons={!slideFontColumnVisible ? '147' : '0'}
             {...this.state}
           />
         </div>

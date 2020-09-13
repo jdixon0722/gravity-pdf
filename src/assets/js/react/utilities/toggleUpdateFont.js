@@ -16,14 +16,12 @@ export function toggleUpdateFont (history, fontId) {
 }
 
 export function removeClass (addFontColumn, editFontColumn, history) {
-  addFontColumn.classList.remove('remove')
   editFontColumn.classList.remove('show')
 
   return history.push('/fontmanager/')
 }
 
 export function addClass (addFontColumn, editFontColumn, history, fontId) {
-  addFontColumn.classList.add('remove')
   editFontColumn.classList.add('show')
 
   return history.push('/fontmanager/' + fontId)

@@ -19,7 +19,8 @@ export const AddFont = (
     msg,
     loading,
     tabIndexFontName,
-    tabIndexFontFiles
+    tabIndexFontFiles,
+    tabIndexFooterButtons
   }
 ) => (
   <div className={style}>
@@ -64,6 +65,7 @@ export const AddFont = (
         onHandleCancelEditFont={onHandleCancelEditFont}
         msg={msg}
         loading={loading}
+        tabIndexFooterButtons={tabIndexFooterButtons}
       />
     </form>
   </div>
@@ -84,7 +86,8 @@ AddFont.propTypes = {
   msg: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   tabIndexFontName: PropTypes.string.isRequired,
-  tabIndexFontFiles: PropTypes.string.isRequired
+  tabIndexFontFiles: PropTypes.string.isRequired,
+  tabIndexFooterButtons: PropTypes.string.isRequired
 }
 
 export default AddFont
