@@ -206,6 +206,10 @@
                   background-color: base.$error-color;
                   color: #ffffff;
                 }
+
+                &:focus {
+                  border-color: base.$default-text-color;
+                }
               }
 
               &.error {
