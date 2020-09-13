@@ -49,9 +49,10 @@ export class CloseDialog extends React.Component {
     document.removeEventListener('keydown', this.handleKeyPress, false)
 
     const { location: { pathname }, fontList } = this.props
+    const tabLocation = window.location.search.substr(window.location.search.lastIndexOf('=') + 1)
 
     /* Ensure associated font manager select box has the latest data */
-    if (pathname.includes('/fontmanager/')) {
+    if (pathname.includes('/fontmanager/') && tabLocation === 'general') {
       associatedFontManagerSelectBox(fontList)
     }
   }
