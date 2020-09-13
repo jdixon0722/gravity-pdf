@@ -5,6 +5,7 @@ import { clearAddFontMsg, deleteFont } from '../../actions/fontManager'
 import fontManagerHandleKeyPress from '../../utilities/fontManagerHandleKeyPress'
 import { toggleUpdateFont } from '../../utilities/toggleUpdateFont'
 import FontListIcon from './FontListIcon'
+import Spinner from '../Spinner'
 
 export class FontListItems extends Component {
   static propTypes = {
@@ -38,7 +39,25 @@ export class FontListItems extends Component {
         bold: PropTypes.string.isRequired,
         bolditalics: PropTypes.string.isRequired
       })
-    )
+    ),
+    loading: PropTypes.bool.isRequired
+  }
+
+  state = {
+    deleteId: ''
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    const { loading } = this.props
+
+    /* Reset/Clear deleteId loading state */
+    if (prevProps.loading !== loading && !loading) {
+      this.handleResetLoadingState()
+    }
+  }
+
+  handleResetLoadingState = () => {
+    this.setState({ deleteId: '' })
   }
 
   handleFontClick = fontId => {
@@ -58,6 +77,8 @@ export class FontListItems extends Component {
   handleDeleteFont = (e, id) => {
     e.stopPropagation()
 
+    this.setState({ deleteId: id })
+
     const { deleteFont, history } = this.props
 
     if (window.confirm('Are you sure you want to delete this font?')) {
@@ -70,7 +91,8 @@ export class FontListItems extends Component {
   }
 
   render () {
-    const { id, fontList, searchResult } = this.props
+    const { deleteId } = this.state
+    const { id, loading, fontList, searchResult } = this.props
     const list = !searchResult ? fontList : searchResult
 
     return (
@@ -84,12 +106,15 @@ export class FontListItems extends Component {
               onKeyDown={e => fontManagerHandleKeyPress(e, font.id, this.handleFontClick)}
               tabIndex='144'
             >
-              <span
-                className='dashicons dashicons-trash'
-                onClick={e => this.handleDeleteFont(e, font.id)}
-                onKeyDown={e => fontManagerHandleKeyPress(e, font.id, this.handleDeleteFont, 'stopPropagation')}
-                tabIndex='144'
-              />
+
+              {loading && (deleteId === font.id) ? <Spinner style='delete-font' /> : (
+                <span
+                  className='dashicons dashicons-trash'
+                  onClick={e => this.handleDeleteFont(e, font.id)}
+                  onKeyDown={e => fontManagerHandleKeyPress(e, font.id, this.handleDeleteFont, 'stopPropagation')}
+                  tabIndex='144'
+                />
+              )}
 
               <span className='font-name'>{font.font_name}</span>
 
@@ -106,6 +131,7 @@ export class FontListItems extends Component {
 }
 
 const mapStateToProps = state => ({
+  loading: state.fontManager.deleteFontLoading,
   fontList: state.fontManager.fontList,
   searchResult: state.fontManager.searchResult,
   msg: state.fontManager.msg

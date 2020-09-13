@@ -27,6 +27,7 @@ import {
 export const initialState = {
   loading: false,
   addFontLoading: false,
+  deleteFontLoading: false,
   fontList: [],
   searchResult: null,
   msg: {}
@@ -164,6 +165,7 @@ export default function (state = initialState, action) {
 
       return {
         ...state,
+        deleteFontLoading: true,
         msg
       }
     }
@@ -173,6 +175,7 @@ export default function (state = initialState, action) {
       if (state.searchResult) {
         return {
           ...state,
+          deleteFontLoading: false,
           fontList: findAndRemove([...state.fontList], payload),
           searchResult: findAndRemove([...state.searchResult], payload).length === 0 ? null : findAndRemove([...state.searchResult], payload)
         }
@@ -180,6 +183,7 @@ export default function (state = initialState, action) {
 
       return {
         ...state,
+        deleteFontLoading: false,
         fontList: findAndRemove([...state.fontList], payload)
       }
     }
@@ -187,6 +191,7 @@ export default function (state = initialState, action) {
     case DELETE_FONT_ERROR:
       return {
         ...state,
+        deleteFontLoading: false,
         msg: {
           ...state.msg,
           error: {
